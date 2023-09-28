@@ -1,55 +1,29 @@
 import React from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const Navbar = ({ totalCounters }) => {
-  console.log("Navbar - Rendered");
-
+const Navbar = () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light mb-4">
-      <Link className="navbar-brand" to="/">
-        Notify
-      </Link>
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
-      <div className="collapse navbar-collapse" id="navbarNav">
-        <ul className="navbar-nav">
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/Song">
-              Song <span className="sr-only">(current)</span>
-            </NavLink>
+    <section className="text-2xl py-5 text-white">
+      <nav id="breadcrumbs" class="px-6">
+        <ul class="flex gap-4">
+          <li>
+            <Link to="/home">Yeite</Link>
           </li>
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/customers">
-              Customers
-            </NavLink>
+          <li>
+            /
           </li>
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/rentals">
-              Rentals
-            </NavLink>
+          <li>
+            <Link to="/song">User</Link>
           </li>
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/login">
-              Login
-            </NavLink>
+          <li>
+            /
           </li>
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/register">
-              Register
-            </NavLink>
+          <li class="active">
+            <Link to="/song/new">Nueva canción</Link>
           </li>
         </ul>
-      </div>
-    </nav>
+      </nav>
+    </section>
   );
 };
 

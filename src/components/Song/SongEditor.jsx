@@ -1,29 +1,12 @@
-import React from "react";
-import Joi from "joi-browser";
-import Form from "../common/Form";
+import React, { Component } from "react";
 import "./Song.css";
 import metronome from "../../class/Metronome";
 
-import { getMovies, saveMovie } from "../../services/fakeMovieService";
-
-class SongEditor extends Form {
+class SongEditor extends Component {
   state = {
     data: { title: "", genreId: "", dailyRentalRate: "", numberInStock: "" },
     genres: [],
     errors: {},
-  };
-
-  schema = {
-    _id: Joi.string(),
-    title: Joi.string().required().label("Title"),
-    genreId: Joi.string().required().label("Genre").min(5),
-    numberInStock: Joi.number()
-      .required()
-      .label("Number in Stock")
-      .min(0)
-      .max(100)
-      .integer(),
-    dailyRentalRate: Joi.number().label("Rate").required().min(0).max(10),
   };
 
   componentDidMount() {
@@ -35,8 +18,7 @@ class SongEditor extends Form {
   }
 
   doSubmit = () => {
-    saveMovie(this.state.data);
-    console.log(getMovies());
+
   };
 
   handleDrop = (ev) => {
@@ -50,11 +32,7 @@ class SongEditor extends Form {
       <div>
         <h1>Register</h1>
         <form onSubmit={this.handleSubmit}>
-          {this.renderInput("title", "Title")}
-          {this.renderInput("file", "Audio", "file")}
-          {this.renderInput("numberInStock", "Number in Stock")}
-          {this.renderInput("dailyRentalRate", "Rate")}
-          {this.renderButton("Save")}
+         
           <div className="area">
             <label
               onDrop={(ev) => {
