@@ -1,3 +1,5 @@
+const { useState, useEffect, useMemo } = require("react");
+
 class Metronome {
   pitch;
   bpm;
@@ -5,10 +7,11 @@ class Metronome {
   buffer = null;
   source = null;
   audioContext = null;
+  isPlaying = false;
 
-  constructor(bpm, pitch) {
-    this.bpm = bpm || 60;
-    this.pitch = pitch || 350;
+  constructor(bpm = 80, pitch = 3000) {
+    this.bpm = bpm;
+    this.pitch = pitch;
     this.audioContext = new AudioContext();
     this.init();
   }
@@ -43,6 +46,7 @@ class Metronome {
     if (this.source) {
       this.source.buffer = null;
     }
+    this.isPlaying = true;
     const audioContext = this.audioContext;
     const source = audioContext.createBufferSource();
     source.buffer = this.buffer;
@@ -50,18 +54,47 @@ class Metronome {
     source.loopEnd = 1 / (this.bpm / 60);
     this.source = source;
 
+    // const lowFilter = audioContext.createBiquadFilter()
+    // lowFilter.type = "lowpass"
+    // lowFilter.gain.value = 1
+    // lowFilter.frequency.value = 120
+
+    //source.connect(lowFilter)
     source.connect(audioContext.destination);
     source.start(0);
   }
 
   pause() {
-    this.source.stop();
+    if(this.source)
+      this.source.stop();
+    this.isPlaying = false;
   }
 
   setBPM(bpm) {
     this.bpm = bpm;
-    this.source.loopEnd = 1 / (this.bpm / 60);
+    if(this.isPlaying){
+      this.play();
+    }
   }
 }
 
-module.exports = new Metronome();
+const useMetronome = (bpm, pitch) => {
+  const [metronome, setMetronome] = useState(null)
+
+  useEffect( () => {
+    const mn = new Metronome(bpm, pitch);
+    setMetronome(mn)
+
+    return () => {
+      // Clean up resources, e.g., stop the metronome sound.
+      if (mn.isPlaying) {
+        mn.pause();
+      }
+    };
+  }, [])
+
+  return metronome;
+}
+
+module.exports = {Metronome, useMetronome};
+

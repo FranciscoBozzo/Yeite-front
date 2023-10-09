@@ -12,9 +12,9 @@ import "./App.css";
 class App extends Component {
   render() {
     return (
-      <div className="w-full h-screen bg-darkest">
+      <div style={{height: "100vh"}} className="bg-darkest d-flex flex-column">
          <Navbar />
-        <main className="h-full w-full">
+        <main className="container flex-grow-1 d-flex justify-content-center align-items-center">
           <Routes>
             <Route path="/home" element={<Home />} />
             <Route path="/song" element={<SongAdmin />} />

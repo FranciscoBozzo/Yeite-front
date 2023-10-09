@@ -1,0 +1,55 @@
+#waveform {
+
+  & ::part(cursor){
+    height: 95%;
+    //top: 28px;
+    border-radius: 4px;
+    box-shadow: 0px 2px 3px 0px #111;
+    overflow:visible;
+    top: 10%;
+  }
+
+  & ::part(handle){
+    position:absolute;
+    transform: translateX(-50%);
+    bottom:0px;
+    left:50%;
+
+
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 24px;
+    height: 24px;
+    background-color: #a246c3;
+    border-radius: 100%;
+  }
+
+  & ::part(step-message-wrapper){
+    position:absolute;
+    bottom: 0;
+    left: 1.5rem;
+  }
+
+  & ::part(step-message){
+   color:white;
+   white-space: nowrap;
+   border: 2px solid white;
+   border-radius: 4px;
+   padding: 4px 8px;
+   font-size: 13px;
+   line-height: normal;
+   text-transform: uppercase;
+  }
+
+  & ::part(scroll){
+    overflow-x: visible;
+    overflow-y: visible;
+  }
+
+  & ::part(progress){
+    backdrop-filter: brightness(50%)
+  }
+
+}

@@ -3,25 +3,19 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <section className="text-2xl py-5 text-white">
-      <nav id="breadcrumbs" class="px-6">
-        <ul class="flex gap-4">
-          <li>
+    <section className="container-fluid pt-2">
+      <nav className="breadcrumb">
+        <ol className="breadcrumb text-white fs-4" style={{"--bs-breadcrumb-divider-color" : "white", "--bs-breadcrumb-item-padding-x":"1.25rem"}}>
+          <li className="breadcrumb-item">
             <Link to="/home">Yeite</Link>
           </li>
-          <li>
-            /
-          </li>
-          <li>
+          <li className="breadcrumb-item">
             <Link to="/song">User</Link>
           </li>
-          <li>
-            /
+          <li className="breadcrumb-item">
+          <Link to="/song/new">Nueva canción</Link>
           </li>
-          <li class="active">
-            <Link to="/song/new">Nueva canción</Link>
-          </li>
-        </ul>
+        </ol>
       </nav>
     </section>
   );
