@@ -18,7 +18,7 @@ function SongEditor(props) {
     return (
       <WaveSurfer
         cursorWidth="2"
-        cursorColor="#fff"
+        cursorColor="white"
         height={200}
         normalize="false"
         waveColor="white"
