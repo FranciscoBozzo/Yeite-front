@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import "./Song.scss";
 import WaveSurfer from "./WaveSurfer";
 import { useMetronome } from "../../class/Metronome";
-import audioBufferToWav from 'audiobuffer-to-wav'
+import audioBufferToWav from "audiobuffer-to-wav";
 
 function SongEditor(props) {
   const [title, setTitle] = useState("Nombre");
@@ -10,9 +10,8 @@ function SongEditor(props) {
   const [url, setUrl] = useState(null);
   const [startTime, setStartTime] = useState(0);
   const [endTime, setEndTime] = useState(240);
-  const [errors, setErrors] = useState({});
   const [bpm, setBPM] = useState(80);
-  const metronome = useMetronome(80, 800)
+  const metronome = useMetronome(80, 800);
 
   const waveFormComponent = useMemo(() => {
     return (
@@ -25,33 +24,45 @@ function SongEditor(props) {
         progressColor="white"
         autoScroll="true"
         autoCenter="true"
-        url = {url}
-        onPlay={() => {metronome.play()}}
-        onPause={() => {metronome.pause()}}
-      />)
-  }, [url, startTime, endTime]);
+        url={url}
+        onPlay={() => {
+          metronome.play();
+        }}
+        onPause={() => {
+          metronome.pause();
+        }}
+      />
+    );
+  }, [url, metronome]);
 
   const onSubmit = () => {};
 
-  const trim = (audioContext, audioBuffer, startTime = 0.0, endTime=240.0) => {
+  const trim = (
+    audioContext,
+    audioBuffer,
+    startTime = 0.0,
+    endTime = 240.0
+  ) => {
     // Calculate start and end times in samples
     const startSample = Math.floor(startTime * audioBuffer.sampleRate);
     const endSample = Math.floor(endTime * audioBuffer.sampleRate);
 
     // Trim the audio buffer
     const trimmedBuffer = audioContext.createBuffer(
-        audioBuffer.numberOfChannels,
-        endSample - startSample,
-        audioBuffer.sampleRate
+      audioBuffer.numberOfChannels,
+      endSample - startSample,
+      audioBuffer.sampleRate
     );
 
     for (let channel = 0; channel < audioBuffer.numberOfChannels; channel++) {
-        const sourceData = audioBuffer.getChannelData(channel).subarray(startSample, endSample);
-        trimmedBuffer.copyToChannel(sourceData, channel);
+      const sourceData = audioBuffer
+        .getChannelData(channel)
+        .subarray(startSample, endSample);
+      trimmedBuffer.copyToChannel(sourceData, channel);
     }
 
     return trimmedBuffer;
-  }
+  };
 
   const handleFileUpload = async (ev) => {
     const fileInput = ev.target;
@@ -103,43 +114,48 @@ function SongEditor(props) {
   };
 
   const onChangeStartTime = async (ev) => {
-    console.log(ev.target.value)
+    console.log(ev.target.value);
     setStartTime(ev.target.value);
     await handleReadFile(file, ev.target.value, endTime);
-  }
+  };
 
   const onChangeEndTime = async (ev) => {
     setEndTime(ev.target.value);
     await handleReadFile(file, startTime, ev.target.value);
-  }
+  };
 
   const handleReadFile = async (file, startTime, endTime) => {
     if (file) {
       const bufferReader = new FileReader();
 
-      bufferReader.onload = async function (e){
+      bufferReader.onload = async function (e) {
         try {
-          const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+          const audioContext = new (window.AudioContext ||
+            window.webkitAudioContext)();
           const arrayBuffer = e.target.result;
           const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);
 
           // Manipulate the audio
-          const trimmedBuffer = trim( audioContext, audioBuffer, startTime, endTime )
+          const trimmedBuffer = trim(
+            audioContext,
+            audioBuffer,
+            startTime,
+            endTime
+          );
 
           const wavBuffer = audioBufferToWav(trimmedBuffer);
-          const blob = new Blob([wavBuffer], {type:"audio/wav"});
+          const blob = new Blob([wavBuffer], { type: "audio/wav" });
           const url = URL.createObjectURL(blob);
-          
+
           // Set the trimmed audio buffer to the audio element
-          setUrl(url)
-          
+          setUrl(url);
         } catch (error) {
-          console.error('Error decoding audio data:', error);
+          console.error("Error decoding audio data:", error);
         }
-      }
+      };
       bufferReader.readAsArrayBuffer(file);
     }
-  }
+  };
 
   return (
     <div className="w-100">
@@ -154,11 +170,23 @@ function SongEditor(props) {
         />
       </div>
 
-      { 
-        !file ? renderInput() : waveFormComponent
-      }
-      <input value={startTime} type="number" step="0.01" min="0" max="240" onChange={onChangeStartTime}/>
-      <input value={endTime} type="number" step="0.01" min="0" max="240" onChange={onChangeEndTime}/>
+      {!file ? renderInput() : waveFormComponent}
+      <input
+        value={startTime}
+        type="number"
+        step="0.01"
+        min="0"
+        max="240"
+        onChange={onChangeStartTime}
+      />
+      <input
+        value={endTime}
+        type="number"
+        step="0.01"
+        min="0"
+        max="240"
+        onChange={onChangeEndTime}
+      />
       <input
         onChange={(ev) => {
           ev.preventDefault();

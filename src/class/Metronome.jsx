@@ -1,4 +1,4 @@
-const { useState, useEffect, useMemo } = require("react");
+const { useState, useEffect } = require("react");
 
 class Metronome {
   pitch;
@@ -65,25 +65,24 @@ class Metronome {
   }
 
   pause() {
-    if(this.source)
-      this.source.stop();
+    if (this.source) this.source.stop();
     this.isPlaying = false;
   }
 
   setBPM(bpm) {
     this.bpm = bpm;
-    if(this.isPlaying){
+    if (this.isPlaying) {
       this.play();
     }
   }
 }
 
 const useMetronome = (bpm, pitch) => {
-  const [metronome, setMetronome] = useState(null)
+  const [metronome, setMetronome] = useState(null);
 
-  useEffect( () => {
+  useEffect(() => {
     const mn = new Metronome(bpm, pitch);
-    setMetronome(mn)
+    setMetronome(mn);
 
     return () => {
       // Clean up resources, e.g., stop the metronome sound.
@@ -91,10 +90,9 @@ const useMetronome = (bpm, pitch) => {
         mn.pause();
       }
     };
-  }, [])
+  }, [bpm, pitch]);
 
   return metronome;
-}
+};
 
-module.exports = {Metronome, useMetronome};
-
+export { Metronome, useMetronome };
