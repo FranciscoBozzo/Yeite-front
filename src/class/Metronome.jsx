@@ -95,4 +95,4 @@ const useMetronome = (bpm, pitch) => {
   return metronome;
 };
 
-module.exports = { Metronome, useMetronome };
+export { Metronome, useMetronome };
