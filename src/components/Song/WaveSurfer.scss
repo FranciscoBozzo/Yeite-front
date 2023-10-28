@@ -1,20 +1,49 @@
 #waveform {
 
   & ::part(cursor){
-    height: 95%;
-    //top: 28px;
+    height: 65%;
+    top:50%;
+    transform: translateY(-50%);
     border-radius: 4px;
-    box-shadow: 0px 2px 3px 0px #111;
+    box-shadow: 0px 2px 3px 1px #11111155;
     overflow:visible;
-    top: 10%;
   }
+
+  & ::part(region){
+    height: 65%;
+    transform: translateY(-50%);
+    top: 50%;
+
+    &:after,&:before{
+      content:'';
+      position:absolute;
+      width:999px;
+      height:100%;
+      background-color: #11111155;
+      pointer-events: none;
+    }
+    &:after{
+      right:100%;
+    }
+    &:before{
+      left:100%;
+    }
+  }
+
+  & ::part(region-handle){
+      box-sizing:border-box;
+      height: 100%;
+      border:none;
+      background-color:white;
+      border-radius: 2px;
+      width: 2px;
+      box-shadow: 0px 2px 3px 1px #11111155;
+}
 
   & ::part(handle){
     position:absolute;
     transform: translateX(-50%);
-    bottom:0px;
-    left:50%;
-
+    top:100%;
 
     display:flex;
     justify-content: center;
@@ -28,8 +57,8 @@
 
   & ::part(step-message-wrapper){
     position:absolute;
-    bottom: 0;
     left: 1.5rem;
+    top: 100%;
   }
 
   & ::part(step-message){
@@ -44,12 +73,12 @@
   }
 
   & ::part(scroll){
-    overflow-x: visible;
+    overflow-x: auto;
     overflow-y: visible;
   }
 
   & ::part(progress){
-    backdrop-filter: brightness(50%)
+    //backdrop-filter: brightness(50%)
   }
 
 }
